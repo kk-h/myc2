@@ -8,4 +8,8 @@
 - 利用するライブラリとしてcv2,numpy,pyplot、jupyter notebookのバージョンは5.7.8
 
 参考にしたサイト
+- http://labs.eecs.tottori-u.ac.jp/sd/Member/oyamada/OpenCV/html/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html
+このページにあるnumpyを利用したフーリエ変換、逆フーリエ変換のコードを利用した。
 
+- http://whitecat-student.hatenablog.com/entry/2016/11/09/225631
+このページに記載されているコードから、マウスイベントと座標の入手の仕方を利用した。

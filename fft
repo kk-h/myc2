@@ -1,0 +1,71 @@
+mport cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+class mouseParam:
+    def __init__(self, input_img_name):
+
+        self.mouseEvent = {"x":None, "y":None, "event":None, "flags":None}
+
+        cv2.setMouseCallback(input_img_name, self.__CallBackFunc, None)
+    
+    def __CallBackFunc(self, eventType, x, y, flags, userdata):
+        
+        self.mouseEvent["x"] = x
+        self.mouseEvent["y"] = y
+        self.mouseEvent["event"] = eventType    
+        self.mouseEvent["flags"] = flags    
+
+    def getData(self):
+        return self.mouseEvent
+    
+    def getEvent(self):
+        return self.mouseEvent["event"]                
+
+    def getFlags(self):
+        return self.mouseEvent["flags"]                
+
+    def getX(self):
+        return self.mouseEvent
+    
+    def getY(self):
+        return self.mouseEvent["y"]  
+
+    def getPos(self):
+        return (self.mouseEvent["x"], self.mouseEvent["y"])
+    
+if __name__ == "__main__":
+
+    img = cv2.imread("mount.jpg")
+    window_name = "please click"
+    cv2.imshow(window_name, img)
+    mouseData = mouseParam(window_name)
+    
+    while 1:
+        cv2.waitKey(20)
+
+        if mouseData.getEvent() == cv2.EVENT_LBUTTONDOWN:
+            print(mouseData.getPos())
+            x = mouseData.getX()
+            y = mouseData.getY()
+            img = cv2.imread('mount.jpg',0)
+            f = np.fft.fft2(img)
+            fshift = np.fft.fftshift(f)
+            magnitude_spectrum = 20*np.log(np.abs(fshift))
+            f_ishift = np.fft.ifftshift(fshift)
+            img_back = np.fft.ifft2(f_ishift)
+            img_back = np.abs(img_back)
+            
+            print(x,y)
+            print(f)
+            plt.subplot(121),plt.imshow(img, cmap = 'gray')
+            plt.title('Image'), plt.xticks([]), plt.yticks([])
+            plt.subplot(122),plt.imshow(magnitude_spectrum, cmap = 'gray')
+            plt.title('Magnitude Spectrum'), plt.xticks([]), plt.yticks([])
+            plt.show()
+            plt.subplot(122),plt.imshow(img_back, cmap = 'gray')
+            plt.title('Image back'), plt.xticks([]), plt.yticks([])
+            plt.show()
+            
+    cv2.destroyAllWindows()            
+    print("Finished")
